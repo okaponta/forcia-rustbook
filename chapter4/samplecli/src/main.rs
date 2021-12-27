@@ -1,3 +1,8 @@
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
+
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
@@ -8,21 +13,26 @@ use structopt::StructOpt;
     about = "Super awesome sample RPN calculator"
 )]
 struct Opt {
-    // Sets the level of verbosity
-    #[structopt(short, long)]
+    #[structopt(short, long, help = "Sets the level of verbosity")]
     verbose: bool,
 
-    // Formulas written in RPN
-    #[structopt(name = "FILE")]
+    #[structopt(name = "FILE", help = "Formulas written in RPN")]
     formula_file: Option<String>,
 }
 
 fn main() {
     let opts = Opt::from_args();
 
-    match opts.formula_file {
-        Some(file) => println!("File specified: {}", file),
-        None => println!("No file specified"),
+    if let Some(path) = opts.formula_file {
+        let f = File::open(path).unwrap();
+        let reader = BufReader::new(f);
+
+        for line in reader.lines() {
+            let line = line.unwrap();
+            println!("{}", line);
+        }
+    } else {
+        // ファイルを指定しなかった場合
+        println!("No file is specified");
     }
-    println!("Is verbosity specified?: {}", opts.verbose);
 }
