@@ -15,6 +15,6 @@ fn get_int_from_file() -> Result<i32> {
 fn main() {
     match get_int_from_file() {
         Ok(x) => println!("{}", x),
-        Err(e) => println!("{}", e),
+        Err(e) => println!("{:#?}", e),
     }
 }
