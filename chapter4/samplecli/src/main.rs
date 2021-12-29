@@ -3,6 +3,7 @@ use anyhow::{bail, ensure, Context, Result};
 use std::{
     fs::File,
     io::{stdin, BufRead, BufReader},
+    path::PathBuf,
 };
 
 use structopt::StructOpt;
@@ -19,7 +20,7 @@ struct Opt {
     verbose: bool,
 
     #[structopt(name = "FILE", help = "Formulas written in RPN")]
-    formula_file: Option<String>,
+    formula_file: Option<PathBuf>,
 }
 
 struct RpnCalclator(bool);
